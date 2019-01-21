@@ -7,50 +7,87 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.commands.Autonomous;
+import frc.robot.subsystems.DriveTrain;
 
 /**
- * This is a sample program to demonstrate how to use a gyro sensor to make a
- * robot drive straight. This program uses a joystick to drive forwards and
- * backwards while the gyro is used for direction keeping.
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the TimedRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the manifest file in the resource
+ * directory.
  */
 public class Robot extends TimedRobot {
-  private static final double kAngleSetpoint = 0.0;
-  private static final double kP = 0.005; // propotional turning constant
+  Command m_autonomousCommand;
 
-  // gyro calibration constant, may need to be adjusted;
-  // gyro value of 360 is set to correspond to one full revolution
-  private static final double kVoltsPerDegreePerSecond = 0.0128;
+  public static DriveTrain m_drivetrain;
+  public static OI m_oi;
 
-  private static final int kLeftMotorPort = 0;
-  private static final int kRightMotorPort = 1;
-  private static final int kGyroPort = 0;
-  private static final int kJoystickPort = 0;
-
-  private final DifferentialDrive m_myRobot
-      = new DifferentialDrive(new PWMVictorSPX(kLeftMotorPort),
-      new PWMVictorSPX(kRightMotorPort));
-  private final AnalogGyro m_gyro = new AnalogGyro(kGyroPort);
-  private final Joystick m_joystick = new Joystick(kJoystickPort);
-
+  /**
+   * This function is run when the robot is first started up and should be
+   * used for any initialization code.
+   */
   @Override
   public void robotInit() {
-    m_gyro.setSensitivity(kVoltsPerDegreePerSecond);
+    // Initialize all subsystems
+    m_drivetrain = new DriveTrain();
+    m_oi = new OI();
+
+    // instantiate the command used for the autonomous period
+    m_autonomousCommand = new Autonomous();
+
+    // Show what command your subsystem is running on the SmartDashboard
+    SmartDashboard.putData(m_drivetrain);
+  }
+
+  @Override
+  public void autonomousInit() {
+    m_autonomousCommand.start(); // schedule the autonomous command (example)
   }
 
   /**
-   * The motor speed is set from the joystick while the RobotDrive turning
-   * value is assigned from the error between the setpoint and the gyro angle.
+   * This function is called periodically during autonomous.
+   */
+  @Override
+  public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
+    log();
+  }
+
+  @Override
+  public void teleopInit() {
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    m_autonomousCommand.cancel();
+  }
+
+  /**
+   * This function is called periodically during teleoperated mode.
    */
   @Override
   public void teleopPeriodic() {
-    double turningValue = (kAngleSetpoint - m_gyro.getAngle()) * kP;
-    // Invert the direction of the turn if we are going backwards
-    turningValue = Math.copySign(turningValue, m_joystick.getY());
-    m_myRobot.arcadeDrive(m_joystick.getY(), turningValue);
+    Scheduler.getInstance().run();
+    log();
+  }
+
+  /**
+   * This function is called periodically during test mode.
+   */
+  @Override
+  public void testPeriodic() {
+  }
+
+  /**
+   * The log method puts interesting information to the SmartDashboard.
+   */
+  private void log() {
+    m_drivetrain.log();
   }
 }
