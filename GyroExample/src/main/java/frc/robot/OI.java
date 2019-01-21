@@ -36,6 +36,8 @@ public class OI {
     // SmartDashboard.putData("Close Claw", new CloseClaw());
 
     SmartDashboard.putData("Sandstorm", new Autonomous());
+    SmartDashboard.putData("Turn Left 90", new Turn(90));
+    SmartDashboard.putData("Drive to obstacle at 24", new DriveParallel(24));
 
     // Create some buttons
     final JoystickButton dpadUp = new JoystickButton(m_joystick, 5);
@@ -57,6 +59,7 @@ public class OI {
     // r2.whenPressed(new Pickup());
     // l1.whenPressed(new Place());
     l2.whenPressed(new Turn(90));
+    r2.whenPressed(new DriveParallel(24));
   }
 
   public Joystick getJoystick() {

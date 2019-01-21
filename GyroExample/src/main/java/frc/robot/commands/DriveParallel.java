@@ -13,30 +13,31 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
+import frc.robot.UltrasonicMB1013;
 
 /**
- * Drive the given distance straight (negative values go backwards). Uses a
- * local PID controller to run a simple PID loop that is only enabled while this
- * command is running. The input is the averaged values of the left and right
- * encoders.
+ * Drive the parallel next to a wall.  This uses the ultrasonic sensor to determine
+ * how far from the wall the robot is, and then drives it towards the wall while
+ * moving mostly forward.
  */
-public class Turn extends Command {
+public class DriveParallel extends Command {
   private final PIDController m_pid;
 
-  private double m_degrees;
+  private double m_distance;
+ 
   /**
    * Create a new DriveStraight command.
    * @param distance The distance to drive
    */
-  public Turn(double degrees) {
+  public DriveParallel(double distance) {
     requires(Robot.m_drivetrain);
 
-    m_pid = new PIDController(.1, 0, 0, new PIDSource() {
+    m_pid = new PIDController(1, 0, 0, new PIDSource() {
       PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
       @Override
       public double pidGet() {
-        return Robot.m_drivetrain.getHeading();
+        return Robot.m_drivetrain.getDistanceToObstacle();
       }
 
       @Override
@@ -49,10 +50,10 @@ public class Turn extends Command {
         return m_sourceType;
       }
     },
-    d -> Robot.m_drivetrain.turnLeft(d));
+    d -> Robot.m_drivetrain.driveWithRoation(Robot.m_oi.getJoystick(), d));
 
-    m_pid.setAbsoluteTolerance(.5);
-    m_degrees = degrees;
+    m_pid.setAbsoluteTolerance(10);
+    m_distance = distance;
   }
 
   // Called just before this Command runs the first time
@@ -61,7 +62,7 @@ public class Turn extends Command {
     // Get everything in a safe starting state.
     Robot.m_drivetrain.reset();
     m_pid.reset();
-    m_pid.setSetpoint(Robot.m_drivetrain.getHeading() - m_degrees);
+    m_pid.setSetpoint(Robot.m_drivetrain.getDistanceToObstacle() - m_distance);
     m_pid.enable();
   }
 
