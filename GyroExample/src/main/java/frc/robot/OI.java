@@ -59,7 +59,7 @@ public class OI {
     // r2.whenPressed(new Pickup());
     // l1.whenPressed(new Place());
     l2.whenPressed(new Turn(90));
-    r2.whenPressed(new DriveParallel(24));
+    r2.whileHeld(new DriveParallel(24));
   }
 
   public Joystick getJoystick() {

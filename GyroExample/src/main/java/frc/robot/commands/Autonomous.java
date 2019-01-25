@@ -17,7 +17,7 @@ public class Autonomous extends CommandGroup {
    * Create a new autonomous command.
    */
   public Autonomous() {
-    //addSequential(new DriveStraight(4));
+    addSequential(new DriveStraight(2));
 
     // addSequential(new PrepareToPickup());
     // addSequential(new Pickup());

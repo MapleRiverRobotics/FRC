@@ -41,6 +41,8 @@ public class Robot extends TimedRobot {
     m_drivetrain = new DriveTrain();
     m_oi = new OI();
 
+    m_drivetrain.resetHeading();
+
     // instantiate the command used for the autonomous period
     m_autonomousCommand = new Autonomous();
 
@@ -69,6 +71,8 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     m_autonomousCommand.cancel();
+
+    m_drivetrain.resetHeading();
   }
 
   /**

@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.UltrasonicMB1013;
 
 /**
  * Drive the parallel next to a wall.  This uses the ultrasonic sensor to determine
@@ -32,12 +31,22 @@ public class DriveParallel extends Command {
   public DriveParallel(double distance) {
     requires(Robot.m_drivetrain);
 
-    m_pid = new PIDController(1, 0, 0, new PIDSource() {
+    m_pid = new PIDController(.025, 0.0, 0.5, new PIDSource() {
       PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
       @Override
       public double pidGet() {
-        return Robot.m_drivetrain.getDistanceToObstacle();
+        double hypotenus = Robot.m_drivetrain.getDistanceToObstacle();
+        double heading = Robot.m_drivetrain.getHeading();
+
+        double distanceToWall = Math.cos(Math.toRadians(heading)) * hypotenus;
+        distanceToWall = Math.abs(distanceToWall);
+
+        SmartDashboard.putNumber("Heading", heading);
+        SmartDashboard.putNumber("Hypotenus", hypotenus);
+        SmartDashboard.putNumber("Distance", distanceToWall);
+
+        return distanceToWall;
       }
 
       @Override
@@ -50,9 +59,13 @@ public class DriveParallel extends Command {
         return m_sourceType;
       }
     },
-    d -> Robot.m_drivetrain.driveWithRoation(Robot.m_oi.getJoystick(), d));
+    d -> Robot.m_drivetrain.driveWithRoation(-.3, d));
 
-    m_pid.setAbsoluteTolerance(10);
+    //-0.2 .. -1
+    //-1 .. -0.2
+
+    m_pid.setOutputRange(-0.3, 0.3);
+    m_pid.setAbsoluteTolerance(1);
     m_distance = distance;
   }
 
@@ -62,14 +75,14 @@ public class DriveParallel extends Command {
     // Get everything in a safe starting state.
     Robot.m_drivetrain.reset();
     m_pid.reset();
-    m_pid.setSetpoint(Robot.m_drivetrain.getDistanceToObstacle() - m_distance);
+    m_pid.setSetpoint(m_distance);
     m_pid.enable();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return m_pid.onTarget();
+    return Robot.m_oi.getJoystick().getRawButtonReleased(10);
   }
 
   // Called once after isFinished returns true
