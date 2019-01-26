@@ -109,17 +109,49 @@ public class DriveTrain extends Subsystem {
     SmartDashboard.putNumber("Speed", speed);
     SmartDashboard.putNumber("Rotation", rotation);
 
-    m_drive.arcadeDrive(speed, rotation);
+    // if joystick not more than 10% throttle/movement, then reset to zero
+    if (isSpeedInDeadband(speed)) {
+      speed = 0.0;
+    }
+    if (isRotationInDeadband(rotation)) {
+      rotation = 0.0;
+    }
+
+    m_drive.arcadeDrive(-speed, rotation);
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    SmartDashboard.putNumber("Left Speed", leftSpeed);
+    SmartDashboard.putNumber("Right Speed", rightSpeed);
+
+    // // if joystick not more than 10% throttle/movement, then reset to zero
+    // if (isSpeedInDeadband(leftSpeed)) {
+    //   leftSpeed = 0.0;
+    // }
+    // if (isSpeedInDeadband(rightSpeed)) {
+    //   rightSpeed = 0.0;
+    // }
+
+    m_drive.tankDrive(leftSpeed, rightSpeed);
+  }
+
+  public void driveWithRoation(double speed, double rotation) {
+
+    // Call the drive method to move the robot
+    m_drive.curvatureDrive(speed, rotation, false);
   }
 
   public void driveWithRoation(Joystick joy, double rotation) {
     double throttleSpeed = calculateSpeed(joy);
     double forwardSpeed = joy.getY() * throttleSpeed;
 
-    System.out.println("Rotation: " + rotation);
+    // If speed is too low, don't bother turning.  Need movement to turn well.
+    if (isSpeedInDeadband(forwardSpeed)) {
+      rotation = 0.0;
+    }
 
     // Call the drive method to move the robot
-    drive(forwardSpeed, rotation*.2);
+    m_drive.curvatureDrive(forwardSpeed, rotation, false);
   }
 
   /**
@@ -128,26 +160,26 @@ public class DriveTrain extends Subsystem {
    * @param joy The joystick to use to drive tank style.
    */
   public void drive(Joystick joy) {
-    // Calculate the speed based on the speed controller of the joystick
-    // The speed controller full forward is -1, full reverse is 1.
     double throttleSpeed = calculateSpeed(joy);
     double forwardSpeed = joy.getY() * throttleSpeed;
     double rotation = joy.getZ() * throttleSpeed;
-
-    // if joystick not more than 10% throttle/movement, then reset to zero
-    if (Math.abs(forwardSpeed) < 0.1) {
-      forwardSpeed = 0.0;
-    }
-    if (Math.abs(rotation) < 0.1) {
-      rotation = 0.0;
-    }
 
     // Call the drive method to move the robot
     drive(forwardSpeed, rotation);
   }
 
+  // Calculate the speed based on the speed controller of the joystick
+  // The speed controller full forward is -1, full reverse is 1.
   private double calculateSpeed(Joystick joy) {
     return ((joy.getThrottle() * -1.0 + 1.0) / 2.0) * -1.0;
+  }
+
+  private boolean isSpeedInDeadband(double speed) {
+    return (Math.abs(speed) < 0.1);
+  }
+
+  private boolean isRotationInDeadband(double rotation) {
+    return (Math.abs(rotation) < 0.1);
   }
 
   /**
@@ -174,9 +206,11 @@ public class DriveTrain extends Subsystem {
    * Reset the robots sensors to the zero states.
    */
   public void reset() {
-    //m_gyro.reset();
     m_leftEncoder.reset();
     m_rightEncoder.reset();
+  }
+  public void resetHeading() {
+    m_gyro.setYaw(0);
   }
 
   /**

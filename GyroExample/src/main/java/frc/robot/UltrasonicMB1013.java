@@ -39,7 +39,7 @@ public class UltrasonicMB1013 extends SendableBase {
    * @return The distance to the obstacle detected by the ultransonic sensor.
    */
   public double getDistanceInInches() {
-    double rangeMM = 5 * (m_rangefinder.getAverageVoltage() / (SUPPLY_VOLTAGE/ANALOG_SCALE_FACTOR));
+    double rangeMM = 5 * (m_rangefinder.getVoltage() / (SUPPLY_VOLTAGE/ANALOG_SCALE_FACTOR));
     return rangeMM / MILLIMETER_TO_INCH_MULTIPLIER;
   }    
 
