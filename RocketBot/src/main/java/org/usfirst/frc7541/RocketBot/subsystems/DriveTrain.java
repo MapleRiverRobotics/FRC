@@ -74,12 +74,12 @@ public class DriveTrain extends Subsystem {
         differentialDrive.setSafetyEnabled(false);
         differentialDrive.setExpiration(0.1);
         differentialDrive.setMaxOutput(1.0);
-        differentialDrive.setDeadband(.05);
+        differentialDrive.setDeadband(.02);
         addChild("Differential Drive", differentialDrive);
 
-        gyro = new GyroPigeon(RobotMap.driveGyro);
-        //gyro.setSensitivity(0.007);
-        //addChild("Gyro", gyro);
+        gyro = new GyroPigeon(rightSlave);
+        gyro.resetToZeroHeading();
+        addChild(gyro);
 
         //ultrasonic = new AnalogInput(1);
         //addChild("Ultrasonic", ultrasonic);
@@ -110,7 +110,24 @@ public class DriveTrain extends Subsystem {
     public void arcadeDrive(double speed, double rotation) {
         SmartDashboard.putNumber("Speed", speed);
         SmartDashboard.putNumber("Rotation", rotation);
+        SmartDashboard.putNumber("Gyro Heading", gyro.getHeading());
 
         differentialDrive.arcadeDrive(-speed, rotation);
+    }
+
+    public void tankDrive(double leftSpeed, double rightSpeed) {
+        SmartDashboard.putNumber("leftSpeed", leftSpeed);
+        SmartDashboard.putNumber("rightSpeed", rightSpeed);
+        SmartDashboard.putNumber("Gyro Heading", gyro.getHeading());
+
+        differentialDrive.tankDrive(leftSpeed, rightSpeed, false);
+    }
+
+    public void stop() {
+        differentialDrive.arcadeDrive(0, 0);
+    }
+
+    public double getHeading() {
+        return gyro.getHeading();
     }
 }
