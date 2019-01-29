@@ -38,22 +38,25 @@ public class RotatorRotateLeft extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        Robot.rotator.degreesToRotate(-90);
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
+        Robot.rotator.enable();;
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.rotator.onTarget();
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
+        Robot.rotator.disable();
     }
 
     // Called when another command which requires one or more of the same

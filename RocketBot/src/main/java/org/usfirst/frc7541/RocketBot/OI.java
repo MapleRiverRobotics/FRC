@@ -52,7 +52,7 @@ public class OI {
     public JoystickButton driveStraightButton;
     public JoystickButton turnToNinetyButton;
 
-    public Joystick joystickOperator = null; // new Joystick(1);
+    public Joystick joystickOperator = new Joystick(1); // new Joystick(1);
     public JoystickButton armUpButton;
     public JoystickButton armDownButton;
     public JoystickButton extenderOut;
