@@ -17,21 +17,33 @@ public class LineSensor {
 
     private static final int I2C_DEVICE_ID = 4;
     public I2C Wire = new I2C(Port.kOnboard, I2C_DEVICE_ID);
-    private static final int MAX_BYTES = 32;
-    long[] lightValues = new long[5];
-    
+    private static final int BYTES_PER_SENSOR = 2;
+    private static final int COUNT_OF_SENSORS = 5;
+    private static final int TOTAL_BYTES = BYTES_PER_SENSOR * COUNT_OF_SENSORS;
+
     public String read() {
-        byte[] data = new byte[MAX_BYTES];// create a byte array to hold the incoming data
-        Wire.read(I2C_DEVICE_ID, MAX_BYTES, data);// use address 4 on i2c and store it in data
-        String output = new String(data);// create a string from the byte array
-        int pt = output.indexOf((char) 255);
-        return (String) output.subSequence(0, pt < 0 ? 0 : pt);// im not sure what these last two lines do
+        byte[] data = new byte[TOTAL_BYTES];// create a byte array to hold the incoming data
+        Wire.read(I2C_DEVICE_ID, TOTAL_BYTES, data);// use address 4 on i2c and store it in data
+
+        int[] numbers = byteArrayToIntArray(data);
+
+        for (int i = 0; i < COUNT_OF_SENSORS; i++) {
+            System.out.print(numbers[i]);
+            System.out.print("  ");
+        }
+        System.out.println();
+        return null;
     }
 
-    public static int byteArrayToLeInt(byte[] b) {
+    public static int[] byteArrayToIntArray(byte[] b) {
         final ByteBuffer bb = ByteBuffer.wrap(b);
-        bb.order(ByteOrder.LITTLE_ENDIAN);
-        return bb.getInt();
+        bb.order(ByteOrder.BIG_ENDIAN);
+
+        int[] results = new int[COUNT_OF_SENSORS];
+        for (int i = 0; i < COUNT_OF_SENSORS; i++) {
+            results[i] = bb.getShort();
+        }
+        return results;
     }
 
 }
