@@ -8,46 +8,53 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc7541.RocketBot.commands;
-import edu.wpi.first.wpilibj.command.Command;
+
+import edu.wpi.first.wpilibj.command.TimedCommand;
+
 import org.usfirst.frc7541.RocketBot.Robot;
+import org.usfirst.frc7541.RocketBot.sensors.LineSensor;
+import org.usfirst.frc7541.RocketBot.sensors.LineSensor.LineSensorStatus;
 
 /**
  *
  */
-public class DriveTeleopCommand extends Command {
+public class StopOnLineCommand extends TimedCommand {
 
-    public DriveTeleopCommand() {
+    LineSensor lineSensor = null;
+    boolean lineFound = false;
+    double speed;
+
+    public StopOnLineCommand(double speed) {
+        super(5);
         requires(Robot.driveTrain);
+        this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        lineSensor = LineSensor.getInstance();
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        double throttleSpeed = Robot.oi.getJoystickDriveThrottleSpeed();
-        double forwardSpeed = Robot.oi.getJoystickDriveForwardSpeed() * throttleSpeed;
-        double rotation = Robot.oi.getJoystickDriveRotation() * throttleSpeed;
-    
-        // Call the drive method to move the robot
-        Robot.driveTrain.arcadeDrive(forwardSpeed, rotation);
+        Robot.driveTrain.arcadeDrive(speed, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return false; // Runs until interrupted
+        LineSensorStatus lineStatus = lineSensor.leftSideLineStatus(5);
+        lineFound = lineStatus == LineSensorStatus.Centered;
+        return super.isFinished() || lineStatus == LineSensorStatus.NoReading || lineFound;
     }
 
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.driveTrain.arcadeDrive(0, 0);
+        Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
