@@ -3,7 +3,7 @@
 
 #define I2C_DEVICE_ID 4
 #define UNSIGNED_INT_SIZE 2
-#define NUM_SENSORS 1                  // number of sensors used
+#define NUM_SENSORS 5                  // number of sensors used
 #define NUM_SAMPLES_PER_SENSOR 4       // average 4 analog samples per sensor reading
 #define EMITTER_PIN QTR_NO_EMITTER_PIN // emitter is controlled by digital pin 2
 
