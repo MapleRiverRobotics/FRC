@@ -28,7 +28,7 @@ public class DriveSpinToCommand extends Command {
      * Add your docs here.
      */
     public DriveSpinToCommand(double angle) {
-        super(7.0); // set the timeout period as a safety catch in case turning fails
+        super(2.0); // set the timeout period as a safety catch in case turning fails
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
 
@@ -39,9 +39,13 @@ public class DriveSpinToCommand extends Command {
     @Override
     protected void initialize() {
 
-        double kP = SmartDashboard.getNumber("P_Spin", 0.05);
-        double kI = SmartDashboard.getNumber("I_Spin", 0.0025);
-        double kD = SmartDashboard.getNumber("D_Spin", 0.15);
+        // double kP = SmartDashboard.getNumber("P_Spin", 0.007);
+        // double kI = SmartDashboard.getNumber("I_Spin", 0.0001);
+        // double kD = SmartDashboard.getNumber("D_Spin", 0.0);
+
+        double kP = SmartDashboard.getNumber("P_Spin", 0.005);
+        double kI = SmartDashboard.getNumber("I_Spin", 0.0);
+        double kD = SmartDashboard.getNumber("D_Spin", 0.0004);
 
         SmartDashboard.putNumber("P_Spin", kP);
         SmartDashboard.putNumber("I_Spin", kI);
@@ -67,12 +71,15 @@ public class DriveSpinToCommand extends Command {
             public PIDSourceType getPIDSourceType() {
                 return m_sourceType;
             }
-        }, d -> Robot.driveTrain.tankDrive(d, -d));
+        }, d ->  {
+            d = minimumSpeed(d);
+            Robot.driveTrain.tankDrive(d, -d);
+        });
 
         m_pid.setInputRange(0, 360);
         m_pid.setOutputRange(-.3, .3);
         m_pid.setContinuous();
-        m_pid.setAbsoluteTolerance(.5);
+        m_pid.setAbsoluteTolerance(.4);
 
         m_pid.reset();
         m_pid.setSetpoint(m_degrees);
@@ -99,6 +106,20 @@ public class DriveSpinToCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return m_pid.onTarget();// || isTimedOut();
+        boolean timedOut = isTimedOut();
+        if (timedOut) {
+            System.out.println("Spin to timed out");
+        }
+        return m_pid.onTarget() || isTimedOut();
+    }
+
+    private double minimumSpeed(double d) {
+        double minSpeed = .12;
+        if (d> 0 && d < minSpeed) {
+            d = minSpeed;
+        } else if (d < 0 && d > -minSpeed) {
+            d = -minSpeed;
+        }
+        return d;
     }
 }

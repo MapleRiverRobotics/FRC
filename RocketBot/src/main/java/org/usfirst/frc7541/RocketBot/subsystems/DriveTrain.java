@@ -130,4 +130,12 @@ public class DriveTrain extends Subsystem {
     public double getHeading() {
         return gyro.getHeading();
     }
+
+    public double getPosition() {
+        return rightMaster.getSelectedSensorPosition() * 18.8 / 4096;
+    }
+
+    public void resetPosition() {
+        rightMaster.setSelectedSensorPosition(0);
+    }
 }

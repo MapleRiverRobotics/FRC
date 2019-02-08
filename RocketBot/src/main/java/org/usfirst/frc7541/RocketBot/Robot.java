@@ -11,6 +11,7 @@
 
 package org.usfirst.frc7541.RocketBot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -84,9 +85,25 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonomousCommand = chooser.getSelected();
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        // autonomousCommand = chooser.getSelected();
+        // // schedule the autonomous command (example)
+        // if (autonomousCommand != null) autonomousCommand.start();
+        autonomousCommand = new DriveStraightCommand(12);
+        autonomousCommand.start();
+        autonomousCommand = new DriveSpinToCommand(90);
+        autonomousCommand.start();
+        autonomousCommand = new DriveStraightCommand(12);
+        autonomousCommand.start();
+        autonomousCommand = new DriveSpinToCommand(180);
+        autonomousCommand.start();        
+        autonomousCommand = new DriveStraightCommand(12);
+        autonomousCommand.start();
+        autonomousCommand = new DriveSpinToCommand(270);
+        autonomousCommand.start();
+        autonomousCommand = new DriveStraightCommand(12);
+        autonomousCommand.start();
+        autonomousCommand = new DriveSpinToCommand(0);
+        autonomousCommand.start();
     }
 
     /**
