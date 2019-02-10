@@ -9,6 +9,7 @@ package org.usfirst.frc7541.RocketBot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import org.usfirst.frc7541.RocketBot.Robot;
 import org.usfirst.frc7541.RocketBot.commands.RotatorRotateLeft;
 
 import edu.wpi.first.wpilibj.Encoder;

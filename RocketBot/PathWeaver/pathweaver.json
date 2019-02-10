@@ -1,0 +1,10 @@
+{
+  "lengthUnit": "Foot",
+  "timeStep": 0.02,
+  "maxVelocity": 150.0,
+  "maxAcceleration": 78.72,
+  "maxJerk": 2364.0,
+  "wheelBase": 21.75,
+  "gameName": "Destination: Deep Space",
+  "outputDir": "../../PathWeaver"
+}

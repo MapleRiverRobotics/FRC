@@ -84,19 +84,19 @@ public class OI {
         }
 
         if (joystickOperator != null) {
-            rotatorRight = new JoystickButton(joystickOperator, 7);
+            rotatorRight = new JoystickButton(joystickOperator, 2);
             rotatorRight.whenPressed(new RotatorRotateRight());
-            rotatorForward = new JoystickButton(joystickOperator, 5);
+            rotatorForward = new JoystickButton(joystickOperator, 10);
             rotatorForward.whenPressed(new RotatorRotateForward());
-            rotatorLeft = new JoystickButton(joystickOperator, 6);
+            rotatorLeft = new JoystickButton(joystickOperator, 3);
             rotatorLeft.whenPressed(new RotatorRotateLeft());
-            extenderIn = new JoystickButton(joystickOperator, 4);
+            extenderIn = new JoystickButton(joystickOperator, 1);
             extenderIn.whenPressed(new ExtenderRetractCommand());
-            extenderOut = new JoystickButton(joystickOperator, 3);
+            extenderOut = new JoystickButton(joystickOperator, 4);
             extenderOut.whenPressed(new ExtenderExtendCommand());
-            armDownButton = new JoystickButton(joystickOperator, 2);
+            armDownButton = new JoystickButton(joystickOperator, 5);
             armDownButton.whenPressed(new ArmDown());
-            armUpButton = new JoystickButton(joystickOperator, 1);
+            armUpButton = new JoystickButton(joystickOperator, 6);
             armUpButton.whenPressed(new ArmUp());
         }
 
@@ -126,21 +126,25 @@ public class OI {
     // driver controls
     public double getJoystickDriveForwardSpeed() {
         if (joystickDrive != null) {
+            if(joystickDrive.getRawButton(2)){
+                return joystickDrive.getY() * -1;
+            }else{
             return joystickDrive.getY();
+            }
         }
         return joystickOperator.getY();
     }
 
     public double getJoystickDriveThrottleSpeed() {
         if (joystickDrive != null) {
-            return joystickDrive.getThrottle();
+            return (joystickDrive.getThrottle()* -1.0 + 1.0) / 2.0;
         }
         return .7;
     }
 
     public double getJoystickDriveRotation() {
         if (joystickDrive != null) {
-            return joystickDrive.getZ() * .9;
+            return joystickDrive.getZ() * -0.9;
         }
         return joystickOperator.getX() * .9;
     }
