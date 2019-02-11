@@ -23,7 +23,9 @@ public class RobotMap {
 	/*-------------------------------------*/
 
 	/*---------------ROTATOR---------------*/
-    public static final int rotatorMotor = 0;  //TODO: Set this number
+    public static final int rotatorMotor = 5;  
+    public static final int rotatorDIOChannel1 = 1;  
+    public static final int rotatorDIOChannel2 = 2;  
 	/*-------------------------------------*/
 
 	/*----------------EXTENDER-----------------*/

@@ -108,10 +108,6 @@ public class DriveTrain extends Subsystem {
      * @param rotation Rotation in range [-1,1]
      */
     public void arcadeDrive(double speed, double rotation) {
-        SmartDashboard.putNumber("Speed", speed);
-        SmartDashboard.putNumber("Rotation", rotation);
-        SmartDashboard.putNumber("Gyro Heading", gyro.getHeading());
-
         differentialDrive.arcadeDrive(-speed, rotation);
     }
 
