@@ -27,11 +27,11 @@ public class RobotMap {
 	/*-------------------------------------*/
 
 	/*----------------EXTENDER-----------------*/
-    public static final int extenderMotor = 0;  //TODO: Set this number
+    public static final int extenderMotor = 7;  
 	/*-------------------------------------*/
 
 	/*----------------ARM---------------*/
-	public static final int armMotor = 0;  //TODO: Set this number
+	public static final int armMotor = 6;  
 	/*-------------------------------------*/
 
 	/*-----------------------------------SENSORS----------------------------------*/

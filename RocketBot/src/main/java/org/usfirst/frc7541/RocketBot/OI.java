@@ -91,13 +91,13 @@ public class OI {
             rotatorLeft = new JoystickButton(joystickOperator, 3);
             rotatorLeft.whenPressed(new RotatorRotateLeft());
             extenderIn = new JoystickButton(joystickOperator, 1);
-            extenderIn.whenPressed(new ExtenderRetractCommand());
+            extenderIn.whileHeld(new ExtenderRetractCommand());
             extenderOut = new JoystickButton(joystickOperator, 4);
-            extenderOut.whenPressed(new ExtenderExtendCommand());
+            extenderOut.whileHeld(new ExtenderExtendCommand());
             armDownButton = new JoystickButton(joystickOperator, 5);
-            armDownButton.whenPressed(new ArmDown());
+            armDownButton.whileHeld(new ArmDown());
             armUpButton = new JoystickButton(joystickOperator, 6);
-            armUpButton.whenPressed(new ArmUp());
+            armUpButton.whileHeld(new ArmUp());
         }
 
         // SmartDashboard Buttons
