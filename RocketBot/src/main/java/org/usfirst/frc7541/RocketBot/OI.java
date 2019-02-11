@@ -85,11 +85,11 @@ public class OI {
 
         if (joystickOperator != null) {
             rotatorRight = new JoystickButton(joystickOperator, 2);
-            rotatorRight.whenPressed(new RotatorRotateRight());
+            rotatorRight.whenPressed(new RotatorRotate(90));
             rotatorForward = new JoystickButton(joystickOperator, 10);
-            rotatorForward.whenPressed(new RotatorRotateForward());
+            rotatorForward.whenPressed(new RotatorRotate(0));
             rotatorLeft = new JoystickButton(joystickOperator, 3);
-            rotatorLeft.whenPressed(new RotatorRotateLeft());
+            rotatorLeft.whenPressed(new RotatorRotate(-90));
             extenderIn = new JoystickButton(joystickOperator, 1);
             extenderIn.whileHeld(new ExtenderRetractCommand());
             extenderOut = new JoystickButton(joystickOperator, 4);
@@ -105,9 +105,9 @@ public class OI {
         SmartDashboard.putData("TeleOpDriveCommand", new DriveTeleopCommand());
         SmartDashboard.putData("ExtenderExtendCommand", new ExtenderExtendCommand());
         SmartDashboard.putData("ExtenderRetractCommand", new ExtenderRetractCommand());
-        SmartDashboard.putData("RotatorRotateLeft", new RotatorRotateLeft());
-        SmartDashboard.putData("RotatorRotateRight", new RotatorRotateRight());
-        SmartDashboard.putData("RotatorRotateForward", new RotatorRotateForward());
+        SmartDashboard.putData("RotatorRotateLeft", new RotatorRotate(-90));
+        SmartDashboard.putData("RotatorRotateRight", new RotatorRotate(90));
+        SmartDashboard.putData("RotatorRotateForward", new RotatorRotate(0));
         SmartDashboard.putData("ArmUp", new ArmUp());
         SmartDashboard.putData("ArmDown", new ArmDown());
     }
