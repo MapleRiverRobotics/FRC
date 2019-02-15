@@ -15,15 +15,12 @@ public class Arm extends Subsystem {
     WPI_VictorSPX armController = new WPI_VictorSPX(RobotMap.armMotor);
     DigitalInput lowerLimitSwitch = new DigitalInput(RobotMap.armLowerLimitSwitchDio);
     DigitalInput raiseLimitSwitch = new DigitalInput(RobotMap.armRaiseLimitSwitchDio);
-    Counter lowerCounter = new Counter(lowerLimitSwitch);
-    Counter raiseCounter = new Counter(raiseLimitSwitch);
 
     public Arm() {
     }
 
     @Override
     public void initDefaultCommand() {
-        reset();
     }
 
     public void up() {
@@ -36,19 +33,14 @@ public class Arm extends Subsystem {
     }
 
     public boolean armIsRaised() {
-        return raiseLimitSwitch.get() == false || raiseCounter.get() != 0;
+        return raiseLimitSwitch.get() == false;
     }
 
     public boolean armIsLowered() {
-        return lowerLimitSwitch.get() == false || lowerCounter.get() != 0;
+        return lowerLimitSwitch.get() == false;
     }
 
     public void stop() {
         armController.stopMotor();
-    }
-
-    public void reset() {
-        raiseCounter.reset();
-        lowerCounter.reset();
     }
 }
