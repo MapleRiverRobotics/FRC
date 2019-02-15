@@ -1,15 +1,15 @@
 package org.usfirst.frc7541.RocketBot.subsystems;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import org.usfirst.frc7541.RocketBot.RobotMap;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class Arm extends Subsystem {
+public class DriverRotator extends Subsystem {
 
-    WPI_VictorSPX armController = new WPI_VictorSPX(RobotMap.armMotor);
+    WPI_VictorSPX rotatorController = new WPI_VictorSPX(RobotMap.rotatorMotor);
 
-    public Arm() {
+    public DriverRotator() {
     }
 
     @Override
@@ -20,17 +20,16 @@ public class Arm extends Subsystem {
     public void periodic() {
         // Put code here to be run every loop
     }
-    
-    public void up() {
-        armController.set(0.4);
+
+    public void right() {
+        rotatorController.set(0.5);
     }
 
-    public void down() {
-        armController.set(-0.4);
+    public void left() {
+        rotatorController.set(-0.5);
     }
 
     public void stop() {
-        armController.stopMotor();
+        rotatorController.set(0);
     }
 }
-

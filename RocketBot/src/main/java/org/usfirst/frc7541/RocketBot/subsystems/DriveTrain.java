@@ -108,7 +108,7 @@ public class DriveTrain extends Subsystem {
      * @param rotation Rotation in range [-1,1]
      */
     public void arcadeDrive(double speed, double rotation) {
-        differentialDrive.arcadeDrive(-speed, rotation);
+        differentialDrive.arcadeDrive(speed, rotation*0.91);
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {

@@ -3,10 +3,10 @@ package org.usfirst.frc7541.RocketBot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc7541.RocketBot.Robot;
 
-public class ArmDown extends Command {
+public class RotateLeft extends Command {
 
-    public ArmDown() {
-        requires(Robot.arm);
+    public RotateLeft() {
+        requires(Robot.driverRotator);
     }
 
     // Called just before this Command runs the first time
@@ -17,7 +17,7 @@ public class ArmDown extends Command {
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.arm.down();
+        Robot.driverRotator.left();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,6 +29,6 @@ public class ArmDown extends Command {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.arm.stop();
+        Robot.driverRotator.stop();
     }
 }
