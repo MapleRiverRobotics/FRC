@@ -33,7 +33,10 @@ public class RobotMap {
 	/*-------------------------------------*/
 
 	/*----------------ARM---------------*/
-	public static final int armMotor = 6;  
+    public static final int armMotor = 6;  
+    public static final int armLowerLimitSwitchDio = 7;  
+    public static final int armRaiseLimitSwitchDio = 8;  
+    public static final double armSpeed = .4;  // speed which the MiniCIM runs to raise/lower arm
 	/*-------------------------------------*/
 
 	/*-----------------------------------SENSORS----------------------------------*/
