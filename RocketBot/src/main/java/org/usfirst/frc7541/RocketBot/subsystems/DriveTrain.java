@@ -115,7 +115,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("leftSpeed", leftSpeed);
         SmartDashboard.putNumber("rightSpeed", rightSpeed);
         SmartDashboard.putNumber("Gyro Heading", gyro.getHeading());
-
+        
         differentialDrive.tankDrive(leftSpeed, rightSpeed, false);
     }
 

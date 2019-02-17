@@ -30,7 +30,8 @@ public class RobotMap {
 
 	/*----------------EXTENDER-----------------*/
     public static final int extenderMotor = 7;  
-	/*-------------------------------------*/
+    public static final int extenderRetractLimitSwitchDio = 6;  
+    /*-------------------------------------*/
 
 	/*----------------ARM---------------*/
     public static final int armMotor = 6;  

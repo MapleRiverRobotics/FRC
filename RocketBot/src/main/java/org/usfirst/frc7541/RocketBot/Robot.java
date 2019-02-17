@@ -11,6 +11,8 @@
 
 package org.usfirst.frc7541.RocketBot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -69,6 +71,8 @@ public class Robot extends TimedRobot {
         // Add commands to Autonomous Sendable Chooser
         chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+
     }
 
     /**
