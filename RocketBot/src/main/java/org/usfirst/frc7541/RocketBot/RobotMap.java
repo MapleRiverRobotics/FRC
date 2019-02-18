@@ -20,6 +20,8 @@ public class RobotMap {
 	public static final int driveLeftSlave = 2; 
 	public static final int driveRightSlave = 3; 
     public static final int driveRightMaster = 4; 
+    public static final int driveGyro = 3; 
+    public static final int driveUltrasonicSensor = 0; 
 	/*-------------------------------------*/
 
 	/*---------------ROTATOR---------------*/
@@ -40,17 +42,4 @@ public class RobotMap {
     public static final double armSpeed = .4;  // speed which the MiniCIM runs to raise/lower arm
 	/*-------------------------------------*/
 
-	/*-----------------------------------SENSORS----------------------------------*/
-
-
-	/*----------------DRIVE----------------*/
-    public static final int driveGyro = 3; 
-    public static final int driveUltrasonicSensor = 0; 
-	/*-------------------------------------*/
-
-	/*---------------EXTENDER---------------*/
-	/*-------------------------------------*/
-	
-	/*----------------ROTATOR---------------*/
-	/*-------------------------------------*/
 }

@@ -9,10 +9,8 @@
 
 // sensors 0 through 4 are connected to analog inputs 0 through 4, respectively
 QTRSensorsAnalog qtra((unsigned char[]){0, 1, 2, 3, 4}, NUM_SENSORS, NUM_SAMPLES_PER_SENSOR, EMITTER_PIN);
-unsigned int sensorValues[NUM_SENSORS];
 
-byte m_lightValues[NUM_SENSORS * UNSIGNED_INT_SIZE];
-int m_arrayIndex;
+static unsigned int sensorValues[NUM_SENSORS] = {0,0,0,0,0};
 
 void setup()
 {
@@ -20,43 +18,56 @@ void setup()
     Serial.begin(9600); // set the data rate in bits per second for serial data transmission
     delay(1000);
     Wire.begin(I2C_DEVICE_ID);    // join i2c bus with address #4
+    Wire.setClock(400000); // set clock speed to fast to match RoboRio I2C clock speed
     Wire.onRequest(requestEvent); // register event
 }
 
 void loop()
 {
-    delay(100);
+    delay(20);
+
+    // read raw sensor values - 0 (maximum reflectance) to 1023 (minimum reflectance)
+    readSensors();
+    //requestEvent();
+}
+
+void readSensors() 
+{
+    unsigned int tempValues[NUM_SENSORS];
+    qtra.read(tempValues);
+
+    noInterrupts();
+    memcpy(sensorValues, tempValues, sizeof(tempValues));
+    interrupts();
 }
 
 // function that executes whenever data is requested by master
 // this function is registered as an event, see setup()
 void requestEvent()
 {
-    m_arrayIndex = 0;
-
-    // read raw sensor values - 0 (maximum reflectance) to 1023 (minimum reflectance)
-    qtra.read(sensorValues);
+    byte lightValues[NUM_SENSORS * UNSIGNED_INT_SIZE];
 
     // print the sensor values as numbers from 0 to 1023, where 0 means maximum reflectance and
     // 1023 means minimum reflectance
-    for (unsigned char i = 0; i < NUM_SENSORS; i++)
+    for (int i = 0; i < NUM_SENSORS; i++)
     {
-        appendToByteArray(sensorValues[i]);
-        Serial.print(sensorValues[i]);
-        Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
+        appendToByteArray(i, sensorValues[i], lightValues);
+        //Serial.print(sensorValues[i]);
+        //Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
     }
-    Serial.println();
+    //Serial.println();
 
-    Wire.write(m_lightValues, sizeof(m_lightValues));
+    Wire.write(lightValues, (NUM_SENSORS * UNSIGNED_INT_SIZE));
 }
 
-void appendToByteArray(unsigned int lightValue)
+void appendToByteArray(unsigned char arrayIndex, unsigned int lightValue, byte lightValues[])
 {
     byte *bytePointer = (byte *)&lightValue;
+    unsigned char position = 0;
 
     for (int i = UNSIGNED_INT_SIZE - 1; i > -1; i--)
     {
-        m_lightValues[m_arrayIndex] = bytePointer[i];
-        m_arrayIndex++;
+        lightValues[(arrayIndex * UNSIGNED_INT_SIZE) + position] = bytePointer[i];
+        position++;
     }
 }
