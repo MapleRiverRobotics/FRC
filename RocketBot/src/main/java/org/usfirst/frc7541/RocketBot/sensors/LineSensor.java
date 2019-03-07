@@ -18,18 +18,17 @@ public class LineSensor {
     private static final short I2C_DEVICE_ID = 4;
     public I2C Wire = new I2C(Port.kOnboard, I2C_DEVICE_ID);
     private static final short BYTES_PER_SENSOR = 2;
-    private static final short COUNT_OF_SENSORS = 5;
+    private static final short COUNT_OF_SENSORS = 2;
     private static final short TOTAL_BYTES = BYTES_PER_SENSOR * COUNT_OF_SENSORS;
 
     private static final short SIDE_LEFT_SENSOR = 0;
     private static final short SIDE_RIGHT_SENSOR = 1;
-    private static final short FRONT_LEFT_SENSOR = 2;
-    private static final short FRONT_CENTER_SENSOR = 3;
-    private static final short FRONT_RIGHT_SENSOR = 4;
+    // private static final short FRONT_LEFT_SENSOR = 0;
+    // private static final short FRONT_CENTER_SENSOR = 1;
+    // private static final short FRONT_RIGHT_SENSOR = 2;
 
-    private static final short LINE_VISIBLE_VALUE = 600; // when the sensor reads less than 600, we are over a white line
-    private static final short LINE_NOT_VISIBLE_VALUE = 800; // when the sensor reads less than 600, we are over a white
-                                                           // line
+    private static final short LINE_VISIBLE_VALUE = 700; // when the sensor reads less than 600, we are over a white line
+    private static final short LINE_NOT_VISIBLE_VALUE = 800; // when the sensor reads less than 600, we are over a white line
 
     private static short[] onLineValues;
     private static short[] offLineValues;
@@ -60,34 +59,35 @@ public class LineSensor {
     }
 
     public LineSensorStatus leftSideLineStatus(double percentErrorAllowed) {
-        return leftRightSideLineStatus(SIDE_LEFT_SENSOR, percentErrorAllowed);
+        short[] sensorValues = readSensorValues();
+        return getLineSensorStatus(SIDE_LEFT_SENSOR, percentErrorAllowed, sensorValues);
     }
 
     public LineSensorStatus rightSideLineStatus(double percentErrorAllowed) {
-        return leftRightSideLineStatus(SIDE_RIGHT_SENSOR, percentErrorAllowed);
+        short[] sensorValues = readSensorValues();
+        return getLineSensorStatus(SIDE_RIGHT_SENSOR, percentErrorAllowed, sensorValues);
     }
 
-    public LineSensorStatus frontLineStatus() {
-        short[] sensorValues = readSensorValues();
+    // public LineSensorStatus frontLineStatus() {
+    //     short[] sensorValues = readSensorValues();
 
-        if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR] <= 0
-                && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
-            return LineSensorStatus.NoReading;
-        }
-        if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
-            return LineSensorStatus.RightOfLine;
-        }
-        if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
-            return LineSensorStatus.LeftOfLine;
-        }
-        if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
-            return LineSensorStatus.Centered;
-        }
-        return LineSensorStatus.NotOnLine;
-    }
+    //     if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR] <= 0
+    //             && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
+    //         return LineSensorStatus.NoReading;
+    //     }
+    //     if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
+    //         return LineSensorStatus.RightOfLine;
+    //     }
+    //     if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
+    //         return LineSensorStatus.LeftOfLine;
+    //     }
+    //     if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
+    //         return LineSensorStatus.Centered;
+    //     }
+    //     return LineSensorStatus.NotOnLine;
+    // }
 
-    private LineSensorStatus leftRightSideLineStatus(short sensorIndex, double percentErrorAllowed ) {
-        short[] sensorValues = readSensorValues();
+    private LineSensorStatus getLineSensorStatus(short sensorIndex, double percentErrorAllowed, short[] sensorValues) {
 
         short sensorValue = sensorValues[sensorIndex];
 
@@ -110,8 +110,9 @@ public class LineSensor {
     }
 
     private short[] readSensorValues() {
-        byte[] sensorData = new byte[TOTAL_BYTES];// create a byte array to hold the incoming data
-        Wire.read(I2C_DEVICE_ID, TOTAL_BYTES, sensorData);// use address 4 on i2c and store it in data
+        byte[] sensorData = new byte[TOTAL_BYTES]; // create a byte array to hold the incoming data
+        Wire.readOnly(sensorData, TOTAL_BYTES);
+        //Wire.read(I2C_DEVICE_ID, TOTAL_BYTES, sensorData); // read the data from the Arduino
 
         short[] sensorValues = byteArrayToIntArray(sensorData);
 
