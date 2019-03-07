@@ -3,14 +3,14 @@
 
 #define I2C_DEVICE_ID 4
 #define UNSIGNED_INT_SIZE 2
-#define NUM_SENSORS 5                  // number of sensors used
+#define NUM_SENSORS 2                  // number of sensors used
 #define NUM_SAMPLES_PER_SENSOR 4       // average 4 analog samples per sensor reading
 #define EMITTER_PIN QTR_NO_EMITTER_PIN // emitter is controlled by digital pin 2
 
 // sensors 0 through 4 are connected to analog inputs 0 through 4, respectively
-QTRSensorsAnalog qtra((unsigned char[]){0, 1, 2, 3, 4}, NUM_SENSORS, NUM_SAMPLES_PER_SENSOR, EMITTER_PIN);
+QTRSensorsAnalog qtra((unsigned char[]){0, 1}, NUM_SENSORS, NUM_SAMPLES_PER_SENSOR, EMITTER_PIN);
 
-static unsigned int sensorValues[NUM_SENSORS] = {0,0,0,0,0};
+static unsigned int sensorValues[NUM_SENSORS] = {0,0};
 
 void setup()
 {
@@ -28,7 +28,7 @@ void loop()
 
     // read raw sensor values - 0 (maximum reflectance) to 1023 (minimum reflectance)
     readSensors();
-    //requestEvent();
+    requestEvent();
 }
 
 void readSensors() 
@@ -52,10 +52,10 @@ void requestEvent()
     for (int i = 0; i < NUM_SENSORS; i++)
     {
         appendToByteArray(i, sensorValues[i], lightValues);
-        //Serial.print(sensorValues[i]);
-        //Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
+        Serial.print(sensorValues[i]);
+        Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
     }
-    //Serial.println();
+    Serial.println();
 
     Wire.write(lightValues, (NUM_SENSORS * UNSIGNED_INT_SIZE));
 }

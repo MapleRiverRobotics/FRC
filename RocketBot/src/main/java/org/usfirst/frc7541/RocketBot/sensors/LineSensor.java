@@ -18,14 +18,14 @@ public class LineSensor {
     private static final short I2C_DEVICE_ID = 4;
     public I2C Wire = new I2C(Port.kOnboard, I2C_DEVICE_ID);
     private static final short BYTES_PER_SENSOR = 2;
-    private static final short COUNT_OF_SENSORS = 5;
+    private static final short COUNT_OF_SENSORS = 2;
     private static final short TOTAL_BYTES = BYTES_PER_SENSOR * COUNT_OF_SENSORS;
 
-    private static final short SIDE_LEFT_SENSOR = 3;
-    private static final short SIDE_RIGHT_SENSOR = 4;
-    private static final short FRONT_LEFT_SENSOR = 0;
-    private static final short FRONT_CENTER_SENSOR = 1;
-    private static final short FRONT_RIGHT_SENSOR = 2;
+    private static final short SIDE_LEFT_SENSOR = 0;
+    private static final short SIDE_RIGHT_SENSOR = 1;
+    // private static final short FRONT_LEFT_SENSOR = 0;
+    // private static final short FRONT_CENTER_SENSOR = 1;
+    // private static final short FRONT_RIGHT_SENSOR = 2;
 
     private static final short LINE_VISIBLE_VALUE = 700; // when the sensor reads less than 600, we are over a white line
     private static final short LINE_NOT_VISIBLE_VALUE = 800; // when the sensor reads less than 600, we are over a white line
@@ -68,24 +68,24 @@ public class LineSensor {
         return getLineSensorStatus(SIDE_RIGHT_SENSOR, percentErrorAllowed, sensorValues);
     }
 
-    public LineSensorStatus frontLineStatus() {
-        short[] sensorValues = readSensorValues();
+    // public LineSensorStatus frontLineStatus() {
+    //     short[] sensorValues = readSensorValues();
 
-        if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR] <= 0
-                && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
-            return LineSensorStatus.NoReading;
-        }
-        if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
-            return LineSensorStatus.RightOfLine;
-        }
-        if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
-            return LineSensorStatus.LeftOfLine;
-        }
-        if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
-            return LineSensorStatus.Centered;
-        }
-        return LineSensorStatus.NotOnLine;
-    }
+    //     if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR] <= 0
+    //             && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
+    //         return LineSensorStatus.NoReading;
+    //     }
+    //     if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
+    //         return LineSensorStatus.RightOfLine;
+    //     }
+    //     if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
+    //         return LineSensorStatus.LeftOfLine;
+    //     }
+    //     if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
+    //         return LineSensorStatus.Centered;
+    //     }
+    //     return LineSensorStatus.NotOnLine;
+    // }
 
     private LineSensorStatus getLineSensorStatus(short sensorIndex, double percentErrorAllowed, short[] sensorValues) {
 
