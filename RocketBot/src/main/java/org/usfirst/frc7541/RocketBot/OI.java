@@ -78,7 +78,7 @@ public class OI {
         if (joystickDrive != null) {
             driveStraightButton = new JoystickButton(joystickDrive, 8);
             driveStraightButton.whileHeld(new DriveStraightCommand(10));
-
+            
             turnToNinetyButton = new JoystickButton(joystickDrive, 9);
             turnToNinetyButton.whenPressed(new DriveSpinToCommand(90));
             turnToOneEightyButton = new JoystickButton(joystickDrive, 10);

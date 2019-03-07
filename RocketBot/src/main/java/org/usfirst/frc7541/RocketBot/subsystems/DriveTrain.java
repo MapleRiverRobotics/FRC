@@ -81,8 +81,8 @@ public class DriveTrain extends Subsystem {
         gyro.resetToZeroHeading();
         addChild(gyro);
 
-        //ultrasonic = new AnalogInput(1);
-        //addChild("Ultrasonic", ultrasonic);
+        // ultrasonic = new AnalogInput(1);
+        // addChild("Ultrasonic", ultrasonic);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("leftSpeed", leftSpeed);
         SmartDashboard.putNumber("rightSpeed", rightSpeed);
         SmartDashboard.putNumber("Gyro Heading", gyro.getHeading());
-        
+
         differentialDrive.tankDrive(leftSpeed, rightSpeed, false);
     }
 
