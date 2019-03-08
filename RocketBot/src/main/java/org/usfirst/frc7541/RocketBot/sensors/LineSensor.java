@@ -97,7 +97,7 @@ public class LineSensor {
         if (sensorValue > offLineValues[sensorIndex])
             offLineValues[sensorIndex] = sensorValue;
 
-        if (sensorValue <= 0)
+        if (sensorValue < 0)
             return LineSensorStatus.NoReading;
 
         if (sensorValue < onLineValues[sensorIndex] * ((100 + percentErrorAllowed) / 100))

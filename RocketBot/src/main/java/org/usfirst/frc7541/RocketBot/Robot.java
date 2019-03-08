@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
         // Add commands to Autonomous Sendable Chooser
         chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Auto mode", chooser);
-        UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+        //UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
 
     }
 

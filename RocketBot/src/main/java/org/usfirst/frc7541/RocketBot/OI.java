@@ -58,6 +58,8 @@ public class OI {
     public JoystickButton turnToZeroButton;
     public JoystickButton rotateRightButton;
     public JoystickButton rotateLeftButton;
+    public JoystickButton HAB3Reverse;
+    public JoystickButton crossLineAndStopButton;
 
     public Joystick joystickOperator = new Joystick(1);
     public JoystickButton armUpButton;
@@ -77,8 +79,7 @@ public class OI {
 
         if (joystickDrive != null) {
             driveStraightButton = new JoystickButton(joystickDrive, 8);
-            driveStraightButton.whileHeld(new DriveStraightCommand(10));
-            
+            driveStraightButton.whenPressed(new DriveStraightCommand(10));
             turnToNinetyButton = new JoystickButton(joystickDrive, 9);
             turnToNinetyButton.whenPressed(new DriveSpinToCommand(90));
             turnToOneEightyButton = new JoystickButton(joystickDrive, 10);
@@ -91,6 +92,10 @@ public class OI {
             rotateRightButton.whileHeld(new RotateRight());
             rotateLeftButton = new JoystickButton(joystickDrive, 5);
             rotateLeftButton.whileHeld(new RotateLeft());
+            HAB3Reverse = new JoystickButton(joystickDrive, 7);
+            HAB3Reverse.whenPressed(new HAB3Reverse());
+            crossLineAndStopButton = new JoystickButton(joystickDrive, 3);
+            crossLineAndStopButton.whenPressed(new CrossLineAndStopCommand(0.5));
         }
 
         if (joystickOperator != null) {
