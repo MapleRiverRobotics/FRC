@@ -42,4 +42,8 @@ public class RobotMap {
     public static final double armSpeed = .4;  // speed which the MiniCIM runs to raise/lower arm
 	/*-------------------------------------*/
 
+	/*----------------LIFT---------------*/
+    public static final int liftMotor = 8;  
+    public static final double liftSpeed = .6;  // speed which the CIM runs to power lift
+	/*-------------------------------------*/
 }

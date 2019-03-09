@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
     public static Extender extender;
     public static Arm arm;
     public static DriverRotator driverRotator;
+    public static Lift lift;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -61,6 +62,8 @@ public class Robot extends TimedRobot {
         arm = new Arm();
         SmartDashboard.putData(arm);
         driverRotator = new DriverRotator();
+        lift = new Lift();
+        SmartDashboard.putData(lift);
 
         // OI must be constructed after subsystems. If the OI creates Commands
         //(which it very likely will), subsystems are not guaranteed to be
