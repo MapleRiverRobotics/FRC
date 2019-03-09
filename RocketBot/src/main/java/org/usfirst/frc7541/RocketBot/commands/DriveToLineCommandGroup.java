@@ -9,10 +9,13 @@ package org.usfirst.frc7541.RocketBot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class StopOnLineCommandGroup extends CommandGroup {
+public class DriveToLineCommandGroup extends CommandGroup {
 
-    public StopOnLineCommandGroup() {
-        addSequential(new CrossLineAndStopCommand(-0.5));
-        addSequential(new StopOnLineCommand(-0.25));
+    private static final double distanceFromSensorToCenter = -14;
+
+    public DriveToLineCommandGroup() {
+        //addSequential(new CrossLineAndStopCommand(-0.5));
+        addSequential(new StopOnLineCommand(0.5));
+        addSequential(new DriveStraightCommand(distanceFromSensorToCenter));
     }
 }

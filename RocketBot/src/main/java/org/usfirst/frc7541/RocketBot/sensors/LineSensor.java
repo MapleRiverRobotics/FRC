@@ -27,8 +27,10 @@ public class LineSensor {
     // private static final short FRONT_CENTER_SENSOR = 1;
     // private static final short FRONT_RIGHT_SENSOR = 2;
 
-    private static final short LINE_VISIBLE_VALUE = 700; // when the sensor reads less than 600, we are over a white line
-    private static final short LINE_NOT_VISIBLE_VALUE = 800; // when the sensor reads less than 600, we are over a white line
+    private static final short LINE_VISIBLE_VALUE = 700; // when the sensor reads less than 600, we are over a white
+                                                         // line
+    private static final short LINE_NOT_VISIBLE_VALUE = 800; // when the sensor reads less than 600, we are over a white
+                                                             // line
 
     private static short[] onLineValues;
     private static short[] offLineValues;
@@ -37,7 +39,8 @@ public class LineSensor {
         NoReading, LeftOfLine, Centered, RightOfLine, NotOnLine, Indeterminent
     }
 
-    // static variable single_instance so we only have one of these objects in memory
+    // static variable single_instance so we only have one of these objects in
+    // memory
     private static LineSensor single_instance = null;
 
     // private constructor restricted to this class so that we only initialize once
@@ -58,6 +61,21 @@ public class LineSensor {
         return single_instance;
     }
 
+    public LineSensorStatus eitherSideLineStatus(double percentErrorAllowed) {
+        short[] sensorValues = readSensorValues();
+        LineSensorStatus leftSideStatus = getLineSensorStatus(SIDE_LEFT_SENSOR, percentErrorAllowed, sensorValues);
+        LineSensorStatus rightSideStatus = getLineSensorStatus(SIDE_RIGHT_SENSOR, percentErrorAllowed, sensorValues);
+
+        if (leftSideStatus == LineSensorStatus.Centered || rightSideStatus == LineSensorStatus.Centered) {
+            return LineSensorStatus.Centered;
+        } else if (leftSideStatus == LineSensorStatus.NotOnLine || rightSideStatus == LineSensorStatus.NotOnLine) {
+            return LineSensorStatus.NotOnLine;
+        } else if (leftSideStatus == LineSensorStatus.NoReading || rightSideStatus == LineSensorStatus.NoReading) {
+            return LineSensorStatus.NoReading;
+        }
+        return LineSensorStatus.Indeterminent;
+    }
+
     public LineSensorStatus leftSideLineStatus(double percentErrorAllowed) {
         short[] sensorValues = readSensorValues();
         return getLineSensorStatus(SIDE_LEFT_SENSOR, percentErrorAllowed, sensorValues);
@@ -69,22 +87,23 @@ public class LineSensor {
     }
 
     // public LineSensorStatus frontLineStatus() {
-    //     short[] sensorValues = readSensorValues();
+    // short[] sensorValues = readSensorValues();
 
-    //     if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR] <= 0
-    //             && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
-    //         return LineSensorStatus.NoReading;
-    //     }
-    //     if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
-    //         return LineSensorStatus.RightOfLine;
-    //     }
-    //     if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
-    //         return LineSensorStatus.LeftOfLine;
-    //     }
-    //     if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
-    //         return LineSensorStatus.Centered;
-    //     }
-    //     return LineSensorStatus.NotOnLine;
+    // if (sensorValues[FRONT_LEFT_SENSOR] <= 0 && sensorValues[FRONT_CENTER_SENSOR]
+    // <= 0
+    // && sensorValues[FRONT_RIGHT_SENSOR] <= 0) {
+    // return LineSensorStatus.NoReading;
+    // }
+    // if (sensorValues[FRONT_LEFT_SENSOR] < 600) {
+    // return LineSensorStatus.RightOfLine;
+    // }
+    // if (sensorValues[FRONT_RIGHT_SENSOR] < 600) {
+    // return LineSensorStatus.LeftOfLine;
+    // }
+    // if (sensorValues[FRONT_CENTER_SENSOR] < 600) {
+    // return LineSensorStatus.Centered;
+    // }
+    // return LineSensorStatus.NotOnLine;
     // }
 
     private LineSensorStatus getLineSensorStatus(short sensorIndex, double percentErrorAllowed, short[] sensorValues) {
@@ -92,18 +111,18 @@ public class LineSensor {
         short sensorValue = sensorValues[sensorIndex];
 
         // store sensor values for future use
-        if (sensorValue < onLineValues[sensorIndex])
+        if (sensorValue < onLineValues[sensorIndex] && sensorValue > 10)
             onLineValues[sensorIndex] = sensorValue;
-        if (sensorValue > offLineValues[sensorIndex])
+        if (sensorValue > offLineValues[sensorIndex] && sensorValue < 1020)
             offLineValues[sensorIndex] = sensorValue;
 
         if (sensorValue < 0)
             return LineSensorStatus.NoReading;
 
-        if (sensorValue < onLineValues[sensorIndex] * ((100 + percentErrorAllowed) / 100))
+        if (sensorValue < onLineValues[sensorIndex] * ((100 + percentErrorAllowed) / 100) && sensorValue > 10)
             return LineSensorStatus.Centered;
 
-        if (sensorValue >= offLineValues[sensorIndex] * ((100 - percentErrorAllowed) / 100))
+        if (sensorValue >= offLineValues[sensorIndex] * ((100 - percentErrorAllowed) / 100) && sensorValue < 1020)
             return LineSensorStatus.NotOnLine;
 
         return LineSensorStatus.Indeterminent;
@@ -112,7 +131,8 @@ public class LineSensor {
     private short[] readSensorValues() {
         byte[] sensorData = new byte[TOTAL_BYTES]; // create a byte array to hold the incoming data
         Wire.readOnly(sensorData, TOTAL_BYTES);
-        //Wire.read(I2C_DEVICE_ID, TOTAL_BYTES, sensorData); // read the data from the Arduino
+        // Wire.read(I2C_DEVICE_ID, TOTAL_BYTES, sensorData); // read the data from the
+        // Arduino
 
         short[] sensorValues = byteArrayToIntArray(sensorData);
 

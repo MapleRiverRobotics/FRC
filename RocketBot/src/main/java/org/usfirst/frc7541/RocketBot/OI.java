@@ -101,9 +101,9 @@ public class OI {
             rotateLeftButton.whileHeld(new RotateLeft());
             HAB3Reverse = new JoystickButton(joystickDrive, 7);
             HAB3Reverse.whenPressed(new HAB3Reverse());
-            
+
             crossLineAndStopButton = new JoystickButton(joystickDrive, 3);
-            crossLineAndStopButton.whenPressed(new CrossLineAndStopCommand(0.5));
+            crossLineAndStopButton.whenPressed(new DriveToLineCommandGroup());
         }
 
         if (joystickOperator != null) {

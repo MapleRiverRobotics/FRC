@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
-        addSequential(new StopOnLineCommandGroup());
+        addSequential(new DriveToLineCommandGroup());
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

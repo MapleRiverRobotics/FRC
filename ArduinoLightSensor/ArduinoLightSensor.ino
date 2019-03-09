@@ -28,7 +28,7 @@ void loop()
 
     // read raw sensor values - 0 (maximum reflectance) to 1023 (minimum reflectance)
     readSensors();
-    requestEvent();
+    //requestEvent();
 }
 
 void readSensors() 
@@ -52,10 +52,10 @@ void requestEvent()
     for (int i = 0; i < NUM_SENSORS; i++)
     {
         appendToByteArray(i, sensorValues[i], lightValues);
-        Serial.print(sensorValues[i]);
-        Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
+        //Serial.print(sensorValues[i]);
+        //Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
     }
-    Serial.println();
+    //Serial.println();
 
     Wire.write(lightValues, (NUM_SENSORS * UNSIGNED_INT_SIZE));
 }

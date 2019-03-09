@@ -142,6 +142,7 @@ public class DriveTrain extends Subsystem {
     public double getPosition() {
         double position = rightMaster.getSelectedSensorPosition() / 4096.0 * 18.8;
         SmartDashboard.putNumber("DriveTrain Position", position);
+        System.out.print("Right motor sensor position ");
         System.out.println(rightMaster.getSelectedSensorPosition());
         return position;
     }

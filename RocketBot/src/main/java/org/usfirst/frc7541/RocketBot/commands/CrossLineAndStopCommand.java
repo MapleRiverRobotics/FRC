@@ -41,7 +41,7 @@ public class CrossLineAndStopCommand extends TimedCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        LineSensorStatus lineStatus = lineSensor.leftSideLineStatus(10);
+        LineSensorStatus lineStatus = lineSensor.eitherSideLineStatus(10);
         lineFound = lineFound || lineStatus == LineSensorStatus.Centered;
         System.out.println(lineStatus);
         return super.isFinished() || lineStatus == LineSensorStatus.NoReading

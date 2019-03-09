@@ -46,7 +46,8 @@ public class StopOnLineCommand extends TimedCommand {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        LineSensorStatus lineStatus = lineSensor.leftSideLineStatus(5);
+        LineSensorStatus lineStatus = lineSensor.eitherSideLineStatus(10);
+        System.out.println(lineStatus);
         lineFound = lineStatus == LineSensorStatus.Centered;
         return super.isFinished() || lineStatus == LineSensorStatus.NoReading || lineFound;
     }
