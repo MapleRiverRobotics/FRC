@@ -15,7 +15,7 @@ public class DriveToLineCommandGroup extends CommandGroup {
 
     public DriveToLineCommandGroup() {
         //addSequential(new CrossLineAndStopCommand(-0.5));
-        addSequential(new StopOnLineCommand(0.5));
+        addSequential(new StopOnLineCommand(0.6));
         addSequential(new DriveStraightCommand(distanceFromSensorToCenter));
     }
 }

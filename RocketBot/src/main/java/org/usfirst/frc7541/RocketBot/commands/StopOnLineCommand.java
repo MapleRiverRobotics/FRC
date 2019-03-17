@@ -55,7 +55,7 @@ public class StopOnLineCommand extends TimedCommand {
     // Called once after isFinished returns true
     @Override
     protected void end() {
-        Robot.driveTrain.stop();
+        //Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
