@@ -97,12 +97,6 @@ public class DriveSpinToCommand extends Command {
         m_pid.disable();
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
-    protected void interrupted() {
-    }
-
     @Override
     protected boolean isFinished() {
         boolean timedOut = isTimedOut();

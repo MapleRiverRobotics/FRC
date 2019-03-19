@@ -32,7 +32,7 @@ import org.usfirst.frc7541.RocketBot.subsystems.*;
 public class Robot extends TimedRobot {
 
     Command autonomousCommand;
-    SendableChooser<Command> chooser = new SendableChooser<>();
+    SendableChooser<Command> chooser = new SendableChooser<Command>();
 
     public static OI oi;
     public static DriveTrain driveTrain;
@@ -72,8 +72,10 @@ public class Robot extends TimedRobot {
         oi = new OI();
 
         // Add commands to Autonomous Sendable Chooser
-        chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+        chooser.setDefaultOption("Right Side", new SandstormCommandGroup());
+        chooser.addOption("Left Side", new SandstormCommandGroup());
         SmartDashboard.putData("Auto mode", chooser);
+
         UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
 
     }
@@ -94,25 +96,25 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        // autonomousCommand = chooser.getSelected();
-        // // schedule the autonomous command (example)
-        // if (autonomousCommand != null) autonomousCommand.start();
-        autonomousCommand = new DriveStraightCommand(12);
-        autonomousCommand.start();
-        autonomousCommand = new DriveSpinToCommand(90);
-        autonomousCommand.start();
-        autonomousCommand = new DriveStraightCommand(12);
-        autonomousCommand.start();
-        autonomousCommand = new DriveSpinToCommand(180);
-        autonomousCommand.start();        
-        autonomousCommand = new DriveStraightCommand(12);
-        autonomousCommand.start();
-        autonomousCommand = new DriveSpinToCommand(270);
-        autonomousCommand.start();
-        autonomousCommand = new DriveStraightCommand(12);
-        autonomousCommand.start();
-        autonomousCommand = new DriveSpinToCommand(0);
-        autonomousCommand.start();
+        autonomousCommand = chooser.getSelected();
+        // schedule the autonomous command (example)
+        if (autonomousCommand != null) autonomousCommand.start();
+        // autonomousCommand = new DriveStraightCommand(12);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveSpinToCommand(90);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveStraightCommand(12);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveSpinToCommand(180);
+        // autonomousCommand.start();        
+        // autonomousCommand = new DriveStraightCommand(12);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveSpinToCommand(270);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveStraightCommand(12);
+        // autonomousCommand.start();
+        // autonomousCommand = new DriveSpinToCommand(0);
+        // autonomousCommand.start();
     }
 
     /**
