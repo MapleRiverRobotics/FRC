@@ -42,7 +42,7 @@ public class DriveSpinToCommand extends Command {
         // double kI = SmartDashboard.getNumber("I_Spin", 0.0001);
         // double kD = SmartDashboard.getNumber("D_Spin", 0.0);
 
-        double kP = SmartDashboard.getNumber("P_Spin", 0.005);
+        double kP = SmartDashboard.getNumber("P_Spin", 0.025);
         double kI = SmartDashboard.getNumber("I_Spin", 0.0);
         double kD = SmartDashboard.getNumber("D_Spin", 0.0004);
 
