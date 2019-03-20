@@ -12,6 +12,7 @@
 package org.usfirst.frc7541.RocketBot;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto mode", chooser);
 
         UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+        cam0.setVideoMode(VideoMode.PixelFormat.kMJPEG, 320, 240, 15);
 
     }
 
