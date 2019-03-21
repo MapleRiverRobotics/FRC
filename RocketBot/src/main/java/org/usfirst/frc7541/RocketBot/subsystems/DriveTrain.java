@@ -135,6 +135,10 @@ public class DriveTrain extends Subsystem {
         return gyro.getHeading();
     }
 
+    public void resetHeading() {
+        gyro.resetToZeroHeading();
+    }
+
     public void moveDistance() {
         rightMaster.set(ControlMode.Position, 1*4096);
     }

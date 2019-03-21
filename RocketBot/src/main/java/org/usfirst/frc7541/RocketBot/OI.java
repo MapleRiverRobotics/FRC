@@ -94,8 +94,8 @@ public class OI {
             // turnToOneEightyButton.whenPressed(new DriveSpinToCommand(180));
             // turnToTwoSeventyButton = new JoystickButton(joystickDrive, 11);
             // turnToTwoSeventyButton.whenPressed(new DriveSpinToCommand(270));
-            // turnToZeroButton = new JoystickButton(joystickDrive, 12);
-            // turnToZeroButton.whenPressed(new DriveSpinToCommand(0));
+            turnToZeroButton = new JoystickButton(joystickDrive, 12);
+            turnToZeroButton.whenPressed(new DriveSpinToCommand(0));
             // rotateRightButton = new JoystickButton(joystickDrive, 6);
             // rotateRightButton.whileHeld(new RotateRight());
             // rotateLeftButton = new JoystickButton(joystickDrive, 5);
@@ -103,7 +103,7 @@ public class OI {
             HAB3Reverse = new JoystickButton(joystickDrive, 7);
             HAB3Reverse.whenPressed(new HAB3Reverse());
             crossLineAndStopButton = new JoystickButton(joystickDrive, 8);
-            crossLineAndStopButton.whenPressed(new DriveToLineCommandGroup());
+            crossLineAndStopButton.whenPressed(new CrossLineAndStopCommand(-.6));
             emergencyBreakButton = new JoystickButton(joystickDrive, 11);
             emergencyBreakButton.whenPressed(new emergencyBreakCommand());
         }
@@ -159,6 +159,7 @@ public class OI {
                 return joystickDrive.getY();
             }
         }
+        // if the drive joystick is not plugged in, use the operator joystick (gamepad) to drive
         return joystickOperator.getY();
     }
 
@@ -186,6 +187,7 @@ public class OI {
         if (joystickDrive != null) {
             return joystickDrive.getZ() * -0.9;
         }
+        // if the drive joystick is not plugged in, use the operator joystick (gamepad) to drive
         return joystickOperator.getX() * .9;
     }
 }
