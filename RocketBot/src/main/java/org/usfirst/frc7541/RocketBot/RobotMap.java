@@ -44,6 +44,6 @@ public class RobotMap {
 
 	/*----------------LIFT---------------*/
     public static final int liftMotor = 8;  
-    public static final double liftSpeed = .5;  // speed which the CIM runs to power lift
+    public static final double liftSpeed = .8;  // speed which the CIM runs to power lift
 	/*-------------------------------------*/
 }
