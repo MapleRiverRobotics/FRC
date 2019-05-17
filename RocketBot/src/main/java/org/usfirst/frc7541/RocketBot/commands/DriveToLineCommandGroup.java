@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class DriveToLineCommandGroup extends CommandGroup {
 
-    private static final double distanceFromSensorToCenter = -14;
+    private static final double distanceFromSensorToCenter = -10;
 
     public DriveToLineCommandGroup() {
         //addSequential(new CrossLineAndStopCommand(-0.5));

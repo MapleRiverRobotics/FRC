@@ -27,7 +27,7 @@ public class DriveSpinToCommand extends Command {
      * Add your docs here.
      */
     public DriveSpinToCommand(double angle) {
-        super(2.0); // set the timeout period as a safety catch in case turning fails
+        super(4.0); // set the timeout period as a safety catch in case turning fails
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveTrain);
 

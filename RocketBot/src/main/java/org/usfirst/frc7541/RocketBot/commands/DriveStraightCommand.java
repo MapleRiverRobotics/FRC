@@ -30,7 +30,7 @@ public class DriveStraightCommand extends Command {
     protected void initialize() { 
         Robot.driveTrain.resetPosition();
 
-        double kP = SmartDashboard.getNumber("P_Drive", 0.0005);
+        double kP = SmartDashboard.getNumber("P_Drive", 0.05);
         double kI = SmartDashboard.getNumber("I_Drive", 0.0);
         double kD = SmartDashboard.getNumber("D_Drive", 0.0);
 

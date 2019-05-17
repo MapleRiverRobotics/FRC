@@ -8,30 +8,28 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package org.usfirst.frc7541.RocketBot.commands;
+
+import org.usfirst.frc7541.RocketBot.Robot;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
+        //addSequential(new DriveToLineCommandGroup());
+        addSequential(new DriveStraightCommand(132));
+        addParallel(new RotatorRotate(-90));
+        addSequential(new DriveSpinToCommand(270));
+        addSequential(new DriveStraightCommand(20));
         addSequential(new DriveToLineCommandGroup());
+        // addSequential(new RotatorRotate(-90));
+        // addSequential(new ExtenderTimedCommand(0.5)); // Stops after 0.5 seconds
+    }
 
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        // addSequential(new Command2());
-        // these will run in order.
-
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        // addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
+    @Override
+    protected void initialize() {
+        Robot.driveTrain.resetHeading();
+        super.initialize();
     }
 }
